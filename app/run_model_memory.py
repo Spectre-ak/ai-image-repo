@@ -3,6 +3,7 @@ import os
 import tensorflow as tf
 from PIL import Image
 from object_detection.utils import label_map_util
+import cv2
 
 PATH_TO_FROZEN_GRAPH = 'frozen_inference_graph.pb'
 PATH_TO_LABELS = 'object_detection/data/mscoco_label_map.pbtxt'
@@ -22,13 +23,15 @@ with detection_graph.as_default():
 
 detection_graph.as_default()
 sess=tf.compat.v1.Session(graph=detection_graph)
-print(category_index)
+# print(category_index)
 
-def run(image_path,id):
-    img=Image.open(image_path)
+def run(image_path,id,flagForStore):
+    img=cv2.imread(image_path)
     #img=img.resize((1280,720))
     image_np = np.array(img)
+    print(image_np.shape)
     image_np_expanded = np.expand_dims(image_np, axis=0)
+    print(image_np_expanded.shape)
     # Actual detection.
     image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
     boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
@@ -39,8 +42,8 @@ def run(image_path,id):
     (boxes, scores, classes, num_detections) = sess.run(
         [boxes, scores, classes, num_detections],
         feed_dict={image_tensor: image_np_expanded})
-    print((classes))
-    print(scores)
+    # print((classes))
+    # print(scores)
     detected_objs = []
     for index in range(0,len(scores[0])):
         if scores[0][index]==0:
@@ -49,6 +52,7 @@ def run(image_path,id):
     print(set(detected_objs))
     detected_objs=list(set(detected_objs))
     print(detected_objs)
-    os.remove(image_path)
+    if flagForStore:
+        os.remove(image_path)
     return detected_objs
     
