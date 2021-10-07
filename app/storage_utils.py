@@ -26,19 +26,20 @@ def get_db_url():
         client = SecretClient(vault_url=KVUri, credential=credential)
         url = client.get_secret("databaseCredentials")
         print("dburl")
-        print(url)
-        return url
+        print(url.value)
+        return url.value
     except Exception as e:
         print(e)
         return ""
+
 def get_s3_cred():
     try:
         credential = DefaultAzureCredential()
         client = SecretClient(vault_url=KVUri, credential=credential)
         url = client.get_secret("awscredurl")
         print("aws url")
-        print(url)
-        return url
+        print(url.value)
+        return url.value
     except Exception as e:
         print(e)
         return ""
@@ -116,3 +117,4 @@ class thread(threading.Thread):
 
 async_obj = thread()
 async_obj.start() #42.54
+
