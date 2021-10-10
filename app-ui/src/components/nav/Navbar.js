@@ -2,18 +2,10 @@ import React from "react";
 
 import StatusDropdown from "./status";
 import NavController from "./nav-controller";
-import TextSearch from "../search-text/TextSearch";
+import TextSearchComponent from "../search-text/TextSearch";
 
 export default function Navbar() {
-  const hideNavbar = () => {
-    try {
-      if (document.getElementById("collapsingNavbar3").className === "navbar-collapse w-100 collapse show")
-        document.getElementById("buttonForNavbarCollapse").click();
-    }
-    catch (err) {
-
-    }
-  };
+  
   return (
 
     <div>
@@ -28,8 +20,8 @@ export default function Navbar() {
             class="mx-auto order-0 w-100"
             style={{ paddingLeft: "20px", paddingRight: "20px" }}
           >
-            <TextSearch />
-            
+            <TextSearchComponent />
+
             <button
               class="navbar-toggler"
               type="button"

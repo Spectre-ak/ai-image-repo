@@ -1,7 +1,7 @@
 import Multiselect from "multiselect-react-dropdown";
 
 
-function TextSearch() {
+function TextSearchComponent() {
     return (
         <Multiselect
             isObject={false}
@@ -13,4 +13,4 @@ function TextSearch() {
     );
 }
 
-export default TextSearch;
+export default TextSearchComponent;
