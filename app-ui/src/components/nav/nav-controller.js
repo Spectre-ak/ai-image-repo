@@ -5,19 +5,20 @@ import ImageSearchComponent from "../image-search/image-search";
 import ClassifyImageComponent from "../image-test/image-test";
 import VideoSearchComponent from "../video-search/video-search";
 
-const Components = {
-    "Repository Home":<RepoHomeComponent/>,
-    "Video Search":<VideoSearchComponent/>,
-    "Image Search":<ImageSearchComponent/>,
-    "Classify Image":<ClassifyImageComponent/>,
-    "Add Images":<AddImageRepoComponent/>
-}
+
 class NavController extends React.Component {
     constructor(props) {
         super(props);
         this.changeTab = this.changeTab.bind(this);
         this.state = {
-            currentTab:"Repository Home"
+            currentTab:"Repository Home",
+            Components: {
+                "Repository Home":<RepoHomeComponent setContentStatus={this.props.setContentStatus} setComponentTitle={this.props.setComponentTitle}/>,
+                "Video Search":<VideoSearchComponent setContentStatus={this.props.setContentStatus} setComponentTitle={this.props.setComponentTitle}/>,
+                "Image Search":<ImageSearchComponent setContentStatus={this.props.setContentStatus} setComponentTitle={this.props.setComponentTitle}/>,
+                "Classify Image":<ClassifyImageComponent setContentStatus={this.props.setContentStatus} setComponentTitle={this.props.setComponentTitle}/>,
+                "Add Images":<AddImageRepoComponent setContentStatus={this.props.setContentStatus} setComponentTitle={this.props.setComponentTitle}/>
+            }
         }
     }
     changeTab(event) {
@@ -25,7 +26,7 @@ class NavController extends React.Component {
         this.setState({
             currentTab:event
         });
-        this.props.setContentComponent(Components[event]);
+        this.props.setContentComponent(this.state.Components[event]);
     }
     render() {
         return (
@@ -37,6 +38,7 @@ class NavController extends React.Component {
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
+                    style={{marginBottom:"10px"}}
                 >
                     {this.state.currentTab}
                 </button>
@@ -45,8 +47,7 @@ class NavController extends React.Component {
                     <DefineNavDropdown name="Video Search" setDropdownDisplay={this.changeTab}/>
                     <DefineNavDropdown name="Image Search" setDropdownDisplay={this.changeTab}/>
                     <DefineNavDropdown name="Classify Image" setDropdownDisplay={this.changeTab}/>
-                    <DefineNavDropdown name="Add Images" setDropdownDisplay={this.changeTab}/>
-                    
+                    <DefineNavDropdown name="Add Images" setDropdownDisplay={this.changeTab}/>                   
                 </div>
             </div>
         );

@@ -1,14 +1,16 @@
 import Multiselect from "multiselect-react-dropdown";
+import { ObjectsList } from "./COCOv2ObjectList";
 
-
-function TextSearchComponent() {
+function TextSearchComponent(props) {
+    
     return (
         <Multiselect
             isObject={false}
-            onRemove={function noRefCheck() { }}
+            onRemove={(selectedList, removedItem) => { props.selectedList(selectedList);}}
             onSearch={function noRefCheck() { }}
-            onSelect={function noRefCheck() { }}
-            options={["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"]}
+            onSelect={(selectedList, selectedItem) =>{ props.selectedList(selectedList); }}
+            options={ObjectsList}
+            placeholder="Select tags to search"
         />
     );
 }
