@@ -1,0 +1,29 @@
+.thumbnail>span {
+    display: block;
+    height: 200px;
+    /* for center alignment */
+    position: relative;
+
+}
+
+.thumbnail>span>img {
+    max-width: 100%;
+    max-height: 100%;
+    /* for center alignment */
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.caption {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
