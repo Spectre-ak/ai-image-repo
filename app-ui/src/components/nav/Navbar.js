@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 
-import StatusDropdown from "./status";
+import ContentFunctionalityStatus from "./status";
+
 import NavController from "./nav-controller";
 import TextSearchComponent from "../search-text/TextSearch";
+import RepoHomeComponent from "../home-repo/home-repo";
+
+const Loader = <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
 
 export default function Navbar() {
-  
-  return (
 
-    <div>
+  const [contentComponent, setContentComponent] = useState(<RepoHomeComponent />);
+  const [contentFuncStatus, setContentStatus] = useState(<ContentFunctionalityStatus status={Loader}/>);
+
+  return (
+    <div className="container">
       <div className="container">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
           <div class="navbar-collapse collapse w-60 order-1 order-md-0 dual-collapse2">
             <ul class="navbar-nav mr-auto">
-              <NavController />
+              <NavController setContentComponent={setContentComponent} setContentStatus={setContentStatus}/>
             </ul>
           </div>
           <div
@@ -35,18 +41,22 @@ export default function Navbar() {
           </div>
           <div class="navbar-collapse collapse w-60 order-3 dual-collapse2">
             <ul class="navbar-nav ml-auto">
-              <StatusDropdown />
+              {contentFuncStatus}
             </ul>
           </div>
         </nav>
 
       </div>
 
+      <hr />
+      <hr />
+
+      <div>
+        {contentComponent}
+      </div>
     </div>
 
-
   );
+
 }
-
-
 

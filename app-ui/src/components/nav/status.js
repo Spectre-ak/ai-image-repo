@@ -1,4 +1,4 @@
-function StatusDropdown(props) {
+function ContentFunctionalityStatus(props) {
     return (
       <div class="dropdown">
         <button
@@ -11,4 +11,4 @@ function StatusDropdown(props) {
     );
   }
 
-  export default StatusDropdown;
+  export default ContentFunctionalityStatus;
