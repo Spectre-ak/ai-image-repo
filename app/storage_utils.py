@@ -1,12 +1,10 @@
-from genericpath import isfile
 import os
-import cmd
 import requests
-from azure.keyvault.secrets import SecretClient
-from azure.identity import DefaultAzureCredential
 import boto3
 import json
 import threading
+import time
+import sched, time
 
 client_s3 = boto3.client(
     's3',
@@ -15,34 +13,14 @@ client_s3 = boto3.client(
     aws_session_token = '',
     region_name = 'us-east-1'
 )
-keyVaultName = "keyVaultsForSecureCreds"
-KVUri = f"https://{keyVaultName}.vault.azure.net"
-
-
 
 def get_db_url():
-    try:
-        credential = DefaultAzureCredential()
-        client = SecretClient(vault_url=KVUri, credential=credential)
-        url = client.get_secret("databaseCredentials")
-        print("dburl")
-        print(url.value)
-        return url.value
-    except Exception as e:
-        print(e)
-        return ""
+    return os.environ['dburl']
+
 
 def get_s3_cred():
-    try:
-        credential = DefaultAzureCredential()
-        client = SecretClient(vault_url=KVUri, credential=credential)
-        url = client.get_secret("awscredurl")
-        print("aws url")
-        print(url.value)
-        return url.value
-    except Exception as e:
-        print(e)
-        return ""
+    return os.environ['s3_creds']
+
 
 def get_extracted_cred(cred):
     for a in range(0,len(cred)):
@@ -50,14 +28,20 @@ def get_extracted_cred(cred):
             a+=1
             return (cred[a:])
 
-
 def save_file(name):
     try:  
         client_s3.upload_file(name,'elasticbeanstalk-us-east-1-937227286445','static/'+name)
         os.remove(name)
+        return {'error':False}
     except Exception as e:
         print(e)
-        print("error occured while upload")
+        if check_status():
+            print('error saving')
+            return {"error":True}
+        else:
+            #check_aws_validity()
+            time.sleep(30)
+            return save_file()
 
 def read_file():
     if os.path.isfile("cred.txt"):
@@ -84,7 +68,6 @@ def read_file():
             client_s3=new_client_s3
         except Exception as e:
             print(e)
-            
 
 def check_aws_validity():
     try:
@@ -105,16 +88,36 @@ def check_aws_validity():
             fd.write(r.text)
         print("creds saved, calline read_file again")
         read_file()
+        global flag_is_s3_fetch_running
+        flag_is_s3_fetch_running=False
+
+def check_status():
+    try:
+        clientResponse = client_s3.list_buckets()
+        print(clientResponse)
+        print("creds are valid")
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 read_file()
 
-class thread(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
+
+class ThreadingExample(object):
+
+    def __init__(self, interval=3600):
+
+        self.interval = interval
+
+        thread = threading.Thread(target=self.run, args=())
+        thread.daemon = True                            # Daemonize thread
+        thread.start()                                  # Start the execution
+
     def run(self):
-        print("thread started")
-        check_aws_validity()
+        while True:
+            print('thred aws creds')
+            check_aws_validity()
+            time.sleep(self.interval)
 
-async_obj = thread()
-async_obj.start() #42.54
-
+example = ThreadingExample()
