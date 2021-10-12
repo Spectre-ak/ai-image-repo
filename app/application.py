@@ -5,8 +5,11 @@ import run_model_memory
 import uuid
 import db_util
 import json as jsonLoader
+from flask_cors import CORS, cross_origin
 
 application = Flask(__name__, static_url_path="/static")
+cors = CORS(application, resources={r"/api/*": {"origins": "*"}})
+
 
 @application.route("/")
 def helloworld():
@@ -26,10 +29,21 @@ def runModelRest():
     run_model_memory.run()
     return "running"
 
-@application.route("/image/<name>")
-def data(name):
-    print(name)
-    return send_file(name,mimetype='image/gif')
+@application.route("/chk/<dir>")
+@cross_origin()
+def chk_temp_dir(dir):
+    print(dir)
+    if os.path.isdir("static/"+dir):
+        return {"status":True}
+    else:
+        return {"status":False}
+
+@application.route("/repo_home_data", methods = ['GET', 'POST'])
+@cross_origin()
+def data():
+    fetched_data = db_util.get_saved_imgs()
+    print(fetched_data)
+    return {"data":fetched_data}
 
 @application.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
@@ -64,23 +78,42 @@ def upload_s3():
 
 
 @application.route('/search_video', methods = ['GET', 'POST'])
+@cross_origin()
 def search_video():
+    print(request.method)
     if request.method == 'POST':
         try:
             print("how u doing")
+            print(request.files)
+            print(request)
+            print(request.form.get("type"))
+
             f_vid = request.files['Videofile']
-            f_search_image = request.files['Imagefile']
+            print("after red vid save")
+
+            
+            
+            print("after ret img save")
+
             temp_dir_id=str(uuid.uuid4())
             os.mkdir("static/"+temp_dir_id)
-            search_image_name = str(uuid.uuid4())+f_search_image.filename
+            
             video_name = str(uuid.uuid4())+f_vid.filename
 
             f_vid.save("static/"+temp_dir_id+"/"+video_name)
+            print("after searc vid save")
 
+            search_image_name = "file_temp_to_be_replaced"   
             if request.form.get("type") == "img":
+                f_search_image = request.files['Imagefile']
+                search_image_name = str(uuid.uuid4())+f_search_image.filename
                 f_search_image.save("static/"+temp_dir_id+"/"+search_image_name)
+                print(f_search_image)
+            
+            print("after searc img save")
+
             print(f_vid)
-            print(f_search_image)
+            
             response_payload = {
                 "error":False, 
                 "temp_dir_id":temp_dir_id,
@@ -97,6 +130,7 @@ def search_video():
 
 
 @application.route('/start_processing_video', methods = ['GET', 'POST'])
+@cross_origin()
 def start_processing_video():
     if request.method == 'POST':
         try:
