@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Loader } from "../home-repo/home-repo";
 import "./styles.css"
 
@@ -13,12 +13,15 @@ class ImageComponent extends React.Component {
     componentDidMount(){
         console.log(this.props.data);
         const processedComps=[];
+        let uniqueId=Math.floor(Math.random() * 100);
         this.props.data.forEach(element => {
+            uniqueId++;
             const tags=[];
             element.tags.forEach(elementTag => {
-                tags.push(<ImageTagsComponent tag={elementTag}/>);
+                uniqueId++;
+                tags.push(<ImageTagsComponent tag={elementTag} key={uniqueId*2789}/>);
             });
-            processedComps.push(<ImageColDefComponent src={element.img} tags={tags}/>)
+            processedComps.push(<ImageColDefComponent src={element.img} tags={tags} key={uniqueId/123}/>)
         });
         this.setState({
             renderData:processedComps
@@ -34,11 +37,13 @@ class ImageComponent extends React.Component {
 }
 
 function ImageColDefComponent(props) {
+    const [loaderImage,setLoaderImage] = useState(<Loader/>);
     return (
         <div className="col-md-3 col-sm-4">
             <div className="thumbnail" href="#">
                 <span>
-                    <img className="img-fluid" src={props.src} alt="" />
+                    {loaderImage}
+                    <img className="img-fluid" src={props.src} alt="" onLoad={()=>{setLoaderImage(null);}}/>
                 </span>
                 <div class="caption">
                     {props.tags}
