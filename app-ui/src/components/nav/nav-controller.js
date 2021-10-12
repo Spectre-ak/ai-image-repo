@@ -32,7 +32,7 @@ class NavController extends React.Component {
         return (
             <div class="dropdown">
                 <button
-                    class="btn btn-primary dropdown-toggle"
+                    class="btn btn-outline-primary dropdown-toggle"
                     type="button"
                     id="dropdownMenuButton"
                     data-toggle="dropdown"

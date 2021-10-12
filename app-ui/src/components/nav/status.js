@@ -4,7 +4,7 @@ function ContentFunctionalityStatus(props) {
     return (
       <div class="dropdown">
         <button 
-          class="btn btn-primary"
+          class="btn btn-outline-primary"
           type="button"
           style={{marginBottom:"10px"}}
         >
