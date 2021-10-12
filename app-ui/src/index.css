@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #121111;
+  color: white;
 }
 
 code {
@@ -14,5 +16,119 @@ code {
 
 
 .chip {
-  background: #007bff;
+  background: #007bff!important;
+}
+
+
+.bg-dark {
+  background-color: #121111!important;
+}
+
+
+
+::-webkit-scrollbar {
+  width: 11.5px;
+  height: 7px;
+  border-radius: 50px;
+  background-blend-mode: darken
+}
+
+::-webkit-scrollbar-track {
+  background: #121212;
+  /* border-radius: 10px */
+} 
+
+::-webkit-scrollbar-thumb {
+  background: red;
+  border-radius: 10px;
+  background: rgb(213 206 206 / 30%);
+  
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #007bff
+}
+
+.optionListContainer {
+  background: #121111!important;
+}
+.highlightOption {
+  background: #007bff!important;
+  color: #fff;
+  border-radius: 33px!important;
+}
+.multiSelectContainer li:hover {
+  background: #007bff!important;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 33px!important;
+}
+.searchWrapper {
+  border: 3px solid #007bff!important;
+  border-radius: 33px!important;
+  padding: 5px;
+  min-height: 22px;
+  position: relative;
+}
+
+.multiSelectContainer ul {
+  border: 3px solid #007bff!important;
+  border-radius: 10px!important;
+}
+
+
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: .5rem 0;
+  margin: .125rem 0 0;
+  font-size: 1rem;
+  color: white;
+  text-align: left;
+  list-style: none;
+  background-color: #121111!important;
+  background-clip: padding-box;
+  border: 3px solid rgb(0 123 255)!important;
+  border-radius: 9px!important;
+}
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: .25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #ffffff!important;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent!important;
+  border: 0;
+}
+.dropdown-item:focus, .dropdown-item:hover {
+  color: #16181b;
+  text-decoration: none;
+  background-color: #007bff!important;
+}
+
+
+
+.modal-content {
+
+  background-color: #121111;
+
+}
+
+.close {
+  
+  color: #007bff;
+
+}
+
+.spinner-border-sm {
+  color: #ff9800!important;
 }
