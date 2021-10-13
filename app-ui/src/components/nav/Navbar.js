@@ -1,24 +1,42 @@
 import React, { useState } from "react";
 import ContentFunctionalityStatus from "./status";
 import NavController from "./nav-controller";
-import ImageSearchComponent from "../image-search/image-search";
+import RepoHomeComponent from "../home-repo/home-repo";
+import { CustomAlertComponentSec } from "../../App";
 
 const Loader = <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+
+const GithubLogo = ()=>{
+  return(
+    <a href="https://github.com/Spectre-ak/ai-image-repo">
+      <span className="githubLogo" style={{cursor:"pointer"}}> Github&nbsp;
+        <big style={{color:"white"}}><big><i className="fab fa-github" aria-hidden="true" id="githubLogo"></i></big></big>
+      </span>
+    </a>
+  )
+}
+
 
 export default function Navbar() {
 
   const [contentFuncStatus, setContentStatus] = useState(<ContentFunctionalityStatus status={Loader} />);
   const [componentTitle, setComponentTitle] = useState(Loader);
-  //const [contentComponent, setContentComponent] = useState(<RepoHomeComponent setContentStatus={setContentStatus} setComponentTitle={setComponentTitle}/>);
+  const [contentComponent, setContentComponent] = useState(<RepoHomeComponent setContentStatus={setContentStatus} setComponentTitle={setComponentTitle}/>);
   //const [contentComponent, setContentComponent] = useState(<VideoSearchComponent setContentStatus={setContentStatus} setComponentTitle={setComponentTitle}/>);
   //const [contentComponent, setContentComponent] = useState(<AddImageRepoComponent setContentStatus={setContentStatus} setComponentTitle={setComponentTitle}/>);
   //const [contentComponent, setContentComponent] = useState(<ClassifyImageComponent setContentStatus={setContentStatus} setComponentTitle={setComponentTitle}/>);
-  const [contentComponent, setContentComponent] = useState(<ImageSearchComponent setContentStatus={setContentStatus} setComponentTitle={setComponentTitle}/>);
+  //const [contentComponent, setContentComponent] = useState(<ImageSearchComponent setContentStatus={setContentStatus} setComponentTitle={setComponentTitle}/>);
   
   return (
     <div className="container">
       <h4 style={{marginTop:"15px",marginBottom:"20px"}}>Welcome to AI based Image Repository</h4>
-      <h4>add how it works and github link</h4>
+      
+      <p>
+        <GithubLogo/>
+        <a href="#" style={{paddingLeft:"20px"}} onClick={()=>{document.getElementById("custom-alert-msg-modal1").click();}}>How it works</a>
+      </p>
+  
+      <br/>
       <div className="container">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
           <div class="navbar-collapse collapse w-60 order-1 order-md-0 dual-collapse2">
@@ -56,6 +74,8 @@ export default function Navbar() {
       <div>
         {contentComponent}
       </div>
+
+      <CustomAlertComponentSec/>
     </div>
 
   );

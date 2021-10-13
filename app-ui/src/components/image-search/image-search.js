@@ -24,7 +24,7 @@ class ImageSearchComponent extends React.Component{
     }
     componentDidMount(){
         this.props.setContentStatus(<ContentFunctionalityStatus status={Status} />);
-        this.props.setComponentTitle(<ClassifyImageTitleComponent message={"Search in the repository using image"}/>);
+        this.props.setComponentTitle(<ClassifyImageTitleComponent message={"Search using image"}/>);
     }
     onFormSubmit(event){
         event.preventDefault();
@@ -54,7 +54,8 @@ class ImageSearchComponent extends React.Component{
             imgUploadAndProcessStatus:<ImgUploadAndProcessStatus message="Uploading and searching for similar images in the repo"/>
         });
 
-        fetch('http://localhost:5000/search_image', {
+        // fetch('http://localhost:5000/search_image', {
+        fetch('http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/search_image', {
             method: 'POST',
             body: reqData,
         }).then(res=>res.json()).then(res=>{
@@ -113,7 +114,7 @@ class ImageSearchComponent extends React.Component{
     render(){
         return(
             <div>
-                <b>Image  search component is here</b>
+                <b>Get similar images from the repository using an image</b>
                 <br /><br />
                 <form onSubmit={this.onFormSubmit}>
                     Select image: &nbsp; &nbsp;

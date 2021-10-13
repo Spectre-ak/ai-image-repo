@@ -52,7 +52,7 @@ class RepoHomeComponent extends React.Component {
     componentDidMount() {
         this.props.setContentStatus(<ContentFunctionalityStatus status={Status} />);
         this.props.setComponentTitle(<TextSearchComponent selectedList={this.selectedListFromSearch} />);
-        fetch('http://localhost:5000/repo_home_data', {
+        fetch('http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/repo_home_data', {
             method: 'GET',
         }).then(res => res.json()).then(res => {
             console.log(res);

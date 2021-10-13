@@ -42,7 +42,8 @@ class AddImageRepoComponent extends React.Component {
     componentDidMount() {
         this.props.setContentStatus(<ContentFunctionalityStatus status={this.state.isAvailableStatus} />);
         this.props.setComponentTitle(<AddImagesToRepoTitle />);
-        fetch("http://localhost:5000/upload_and_store_status")
+        // fetch("http://localhost:5000/upload_and_store_status")
+        fetch("http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/upload_and_store_status")
             .then(res => res.json())
             .then(res => {
                 console.log(res);
@@ -60,7 +61,8 @@ class AddImageRepoComponent extends React.Component {
     updateContentStatus() {
         const intervalIdForCheckingUploadStatus = setInterval(async () => {
             console.log("executing inteval");
-            await fetch("http://localhost:5000/upload_and_store_status")
+            // await fetch("http://localhost:5000/upload_and_store_status") 
+            await fetch("http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/upload_and_store_status")
                 .then(res => res.json())
                 .then(res => {
                     console.log(res);
@@ -106,7 +108,8 @@ class AddImageRepoComponent extends React.Component {
             renderAddImagesToRepo:<Loader/>,
             imgUploadAndProcessStatus:<ImgUploadAndProcessStatus/>
         });
-        fetch('http://localhost:5000/upload_and_store', {
+        // fetch('http://localhost:5000/upload_and_store', {
+        fetch('http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/upload_and_store', {
             method: 'POST',
             body: reqData,
         }).then(res=>res.json()).then(res=>{
