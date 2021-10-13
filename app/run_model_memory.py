@@ -3,6 +3,7 @@ import os
 import tensorflow as tf
 from PIL import Image
 from object_detection.utils import label_map_util
+from object_detection.utils import visualization_utils as vis_util
 import cv2
 import uuid
 from operator import getitem
@@ -36,7 +37,7 @@ sess=tf.compat.v1.Session(graph=detection_graph)
 #     cat.append(f['name'])
 # print(cat)
 
-def run(image_path, id, flagForStore, image_frame_process=None, image_frame_process_flag = False):
+def run(image_path, id, flagForStore, image_frame_process=None, image_frame_process_flag = False, save_image_with_objects_drawn = False):
 
     if image_frame_process_flag:
         image_np = np.array(image_frame_process)
@@ -67,8 +68,28 @@ def run(image_path, id, flagForStore, image_frame_process=None, image_frame_proc
     # print(set(detected_objs))
     detected_objs=list(set(detected_objs))
     print(detected_objs)
+
+    if save_image_with_objects_drawn:
+        vis_util.visualize_boxes_and_labels_on_image_array(
+            image_np,
+            np.squeeze(boxes),
+            np.squeeze(classes).astype(np.int32),
+            np.squeeze(scores),
+            category_index,
+            use_normalized_coordinates=True,
+            line_thickness=2)
+        # Show image with detection
+        #image_np=cv2.cvtColor(image_np,cv2.COLOR_BGR2RGB)
+        processed_img_name="static/"+id+"-processed.jpg"
+        cv2.imwrite(processed_img_name,image_np)
+        # intiating file removal thread after 15 mins
+        thread_remove_file = thread_remove_single_files(processed_img_name)
+        thread_remove_file.start()
+        os.remove(image_path)
+        
     if flagForStore:
         os.remove(image_path)
+    
     return detected_objs
     
 
@@ -155,5 +176,14 @@ class thread(threading.Thread):
         time.sleep(2700)
         os.remove("static/"+self.temp_dir_id+".zip")
         shutil.rmtree("static/"+self.temp_dir_id)
+
+
+class thread_remove_single_files(threading.Thread):
+    def __init__(self, path,):
+        threading.Thread.__init__(self)
+        self.path = path
+    def run(self):
+        time.sleep(900)
+        os.remove(self.path)
 
 
