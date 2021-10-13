@@ -25,9 +25,11 @@ def save_image_details(name,tags):
     storage_utils.save_file(name)
     print("saved url is ")
     print("https://elasticbeanstalk-us-east-1-937227286445.s3.amazonaws.com/static/"+name)
-    data={"url":"https://elasticbeanstalk-us-east-1-937227286445.s3.amazonaws.com/static/"+name, "tags":tags}
+    url = "https://elasticbeanstalk-us-east-1-937227286445.s3.amazonaws.com/static/"+name
+    data={"url":url, "tags":tags}
     collection_name.insert_one(data)
     print("inserted")
+    return {"img":url, "tags":tags}
 
 def get_saved_imgs():
     item_details = collection_name.find()
