@@ -104,20 +104,17 @@ def check_status():
 read_file()
 
 
-class ThreadingExample(object):
-
+class s3_cred_update_background(object):
     def __init__(self, interval=3600):
-
         self.interval = interval
-
         thread = threading.Thread(target=self.run, args=())
-        thread.daemon = True                            # Daemonize thread
-        thread.start()                                  # Start the execution
-
+        thread.daemon = True
+        thread.start()
     def run(self):
         while True:
             print('thred aws creds')
             check_aws_validity()
             time.sleep(self.interval)
 
-example = ThreadingExample()
+update_thread = s3_cred_update_background()
+
