@@ -105,7 +105,7 @@ read_file()
 
 
 class s3_cred_update_background(object):
-    def __init__(self, interval=3600):
+    def __init__(self, interval=1200):
         self.interval = interval
         thread = threading.Thread(target=self.run, args=())
         thread.daemon = True
