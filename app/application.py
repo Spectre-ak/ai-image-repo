@@ -46,35 +46,53 @@ def data():
     return {"data":fetched_data}
 
 @application.route('/upload', methods = ['GET', 'POST'])
+@cross_origin()
 def upload_file():
     if request.method == 'POST':
-        f = request.files['file']
-        id=str(uuid.uuid4())
-        name=id+".jpg"
-        print(name)
-        f.save((name))
-        try:
-            result=run_model_memory.run(name,id,True)
-            return jsonify(result)
-        except Exception as e:
-            print(e)
-            return jsonify([])
+        uploaded_files = request.files.getlist("file")
+        print(uploaded_files)
+        print(uploaded_files[0])
+        stored_details = []
+        for f in uploaded_files:
+            print(f)
+            id=str(uuid.uuid4())
+            name="static/"+id+".jpg"
+            print(name)
+            f.save((name))
+            try:
+                tags=run_model_memory.run(name,id,False, save_image_with_objects_drawn=True)
+                obj = {"img":"http://localhost:5000/static/"+id+"-processed.jpg", "tags":tags}
+                stored_details.append(obj)
+            except Exception as e:
+                print(e)
+                return jsonify({"error":True})
+
+        return {"error":False, "obj":stored_details}
+
 
 @application.route('/upload_and_store', methods = ['GET', 'POST'])
+@cross_origin()
 def upload_s3():
     if request.method == 'POST':
-        f = request.files['file']
-        id=str(uuid.uuid4())
-        name=id+".jpg"
-        print(name)
-        f.save((name))
-        try:
-            tags=run_model_memory.run(name,id,False)
-            db_util.save_image_details(name,tags)
-            return jsonify({"error":False})
-        except Exception as e:
-            print(e)
-            return jsonify({"error":True})
+        uploaded_files = request.files.getlist("file")
+        print(uploaded_files)
+        print(uploaded_files[0])
+        stored_details = []
+        for f in uploaded_files:
+            print(f)
+            id=str(uuid.uuid4())
+            name=id+".jpg"
+            print(name)
+            f.save((name))
+            try:
+                tags=run_model_memory.run(name,id,False)
+                obj = db_util.save_image_details(name,tags)
+                stored_details.append(obj)        
+            except Exception as e:
+                print(e)
+                return jsonify({"error":True})
+
+        return {"error":False, "obj":stored_details}
 
 
 @application.route('/search_video', methods = ['GET', 'POST'])
@@ -152,18 +170,19 @@ def start_processing_video():
 
 
 @application.route('/search_image', methods = ['GET', 'POST'])
+@cross_origin()
 def search_image():
     if request.method == 'POST':
         try:
-            f_search_image = request.files['file']
+            f_search_image = request.files.getlist("file")[0]
             f_name = str(uuid.uuid4())+'.jpg'
             f_search_image.save(f_name)
             objs_found=run_model_memory.run(f_name,id,True)
             res = db_util.get_saved_images_based_on_req_objs(objs_found)
-
+            
             response_payload = {
                 "error":False,  
-                "data":res            
+                "obj":res            
             }
             print(response_payload)
             return response_payload
@@ -173,8 +192,10 @@ def search_image():
 
 
 @application.route('/upload_and_store_status',  methods = ['GET', 'POST'])
+@cross_origin()
 def upload_and_store_status():
     return {'status':db_util.check_s3_status()}
+    #return {'status':True}
 
 
 if __name__ == "__main__":
