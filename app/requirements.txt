@@ -7,3 +7,4 @@ tensorflow==2.5.0
 boto3
 pymongo
 dnspython
+flask-cors
