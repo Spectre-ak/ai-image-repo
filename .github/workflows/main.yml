@@ -22,12 +22,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: 'building and pushing image'
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: 'building app server image'
       - run: |
-            docker build ./app -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/ai-image-repo:0.1
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/ai-image-repo:0.1
+            docker build ./app -t ai-image-repo-backend:0.1
+      - name: 'building app-ui image'
+      - run: |
+            docker build ./app-ui -t ai-image-repo:0.1
