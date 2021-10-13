@@ -2,8 +2,9 @@ import React from "react";
 import AddImageRepoComponent from "../add-repo/add-img-repo";
 import RepoHomeComponent from "../home-repo/home-repo";
 import ImageSearchComponent from "../image-search/image-search";
-import ClassifyImageComponent from "../image-test/image-test";
+import ClassifyImageComponent from "../image-test/image-classify";
 import VideoSearchComponent from "../video-search/video-search";
+
 
 
 class NavController extends React.Component {

@@ -51,7 +51,8 @@ class VideoSearchComponent extends React.Component {
             searchTypeComponent: <SearhUsingImageComponent />,
             searchTags: [],
             renderVideoSearchContent: [],
-            downloadLink: []
+            downloadLink: [],
+            buttonDisabled:false,
         };
         this.selectedListFromSearch = this.selectedListFromSearch.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -135,7 +136,8 @@ class VideoSearchComponent extends React.Component {
 
         this.setState({
             renderVideoSearchContent: <Loader />,
-            videoProcessStatus: <VideoUploadingProgress />
+            videoProcessStatus: <VideoUploadingProgress />,
+            buttonDisabled:true
         });
 
         fetch('http://localhost:5000/search_video', {
@@ -169,12 +171,10 @@ class VideoSearchComponent extends React.Component {
                 framesRes.data.forEach(obj => {
                     console.log(obj);
                     foundSimilarImages.push({
-                        // "img": key,
                         "img": "http://localhost:5000/" + obj[Object.keys(obj)[0]].frame_path,
                         "tags": obj[Object.keys(obj)[0]].similar_objs
                     });
                 });
-                //do for zip also
                 const zipUrl = "http://localhost:5000/static/" + res.temp_dir_id + ".zip";
                 localStorage.setItem("ImageComponent", JSON.stringify(foundSimilarImages));
                 localStorage.setItem("DownloadAsZipComponent", zipUrl);
@@ -184,6 +184,7 @@ class VideoSearchComponent extends React.Component {
                     this.setState({
                         renderVideoSearchContent: <NoResultComponent />,
                         videoProcessStatus: <VideoProcessingDone />,
+                        buttonDisabled:false
                     });
                 }
                 else {
@@ -191,7 +192,8 @@ class VideoSearchComponent extends React.Component {
                         renderVideoSearchContent: <ImageComponent data={foundSimilarImages} />,
                         downloadLink: <DownloadAsZipComponent url={zipUrl} />,
                         videoProcessStatus: <VideoProcessingDone />,
-                        resultsInfo: "Similar Images"
+                        resultsInfo: "Similar Images",
+                        buttonDisabled:false
                     });
                 }
             }).catch(err => {
@@ -207,7 +209,8 @@ class VideoSearchComponent extends React.Component {
     }
     errorOccuredRaiseIssue() {
         this.setState({
-            renderVideoSearchContent: <h5>Some error occured, raise a issue at github</h5>
+            renderVideoSearchContent: <h5>Some error occured, raise a issue at github</h5>,
+            buttonDisabled:false
         });
     }
     render() {
@@ -233,8 +236,8 @@ class VideoSearchComponent extends React.Component {
                     <br /><br />
                     {this.state.searchTypeComponent}
                     <br /><br />
-                    <button type="submit" class="btn btn-outline-primary">
-                        Upload and start processing video
+                    <button type="submit" class="btn btn-outline-primary" disabled={this.state.buttonDisabled}>
+                        <i class="fa fa-upload" aria-hidden="true"></i> Upload and start processing video
                     </button>
                     <span>
                         {this.state.videoProcessStatus}
@@ -275,7 +278,7 @@ function VideoSearchTitleComponent() {
     )
 }
 
-
+export {VideoProcessingDone};
 
 export default VideoSearchComponent;
 
