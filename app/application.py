@@ -13,16 +13,18 @@ cors = CORS(application, resources={r"/api/*": {"origins": "*"}})
 
 @application.route("/")
 def helloworld():
-    return render_template("uploadImage.html")
+    return render_template("index.html")
 
 @application.route("/aa")
 def renderHome():
     return render_template("index.html")
 
-
-@application.route("/ru")
+chk_idle=0
+@application.route("/chk_idle")
 def helloworqld():
-    return "Hello World!"
+    global chk_idle
+    chk_idle+=1
+    return {"chk_idle":chk_idle}
 
 @application.route("/run")
 def runModelRest():
@@ -61,7 +63,9 @@ def upload_file():
             f.save((name))
             try:
                 tags=run_model_memory.run(name,id,False, save_image_with_objects_drawn=True)
-                obj = {"img":"http://localhost:5000/static/"+id+"-processed.jpg", "tags":tags}
+                # obj = {"img":"http://localhost:5000/static/"+id+"-processed.jpg", "tags":tags}
+                obj = {"img":"http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/static/"+id+"-processed.jpg", "tags":tags}
+                
                 stored_details.append(obj)
             except Exception as e:
                 print(e)
@@ -179,7 +183,7 @@ def search_image():
             f_search_image.save(f_name)
             objs_found=run_model_memory.run(f_name,id,True)
             res = db_util.get_saved_images_based_on_req_objs(objs_found)
-            
+
             response_payload = {
                 "error":False,  
                 "obj":res            
