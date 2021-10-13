@@ -46,7 +46,7 @@ class AddImageRepoComponent extends React.Component {
             .then(res => res.json())
             .then(res => {
                 console.log(res);
-                if (res.status) {
+                if (res.status.status) {
                     this.props.setContentStatus(<ContentFunctionalityStatus status={workingStatus} />);
                 }
                 else{
@@ -65,14 +65,14 @@ class AddImageRepoComponent extends React.Component {
                 .then(res => {
                     console.log(res);
                     if (res.status) {
-                        console.log("cleaering interbval");
+                        console.log("clearing interval");
                         this.props.setContentStatus(<ContentFunctionalityStatus status={workingStatus} />);
                         clearInterval(intervalIdForCheckingUploadStatus);
                     }
                 })
                 .catch(err => {
                     console.log(err);
-                    console.log("cleaering interbval");
+                    console.log("clearing interval");
                     clearInterval(intervalIdForCheckingUploadStatus);
                 });
 

@@ -32,7 +32,7 @@ const VideoProcessingProgress = () => {
 
 const VideoProcessingDone = () => {
     return (
-        <span> &nbsp;Done &nbsp;<i class="fa fa-check-circle-o" style={{ color: "lime" }} aria-hidden="true"></i></span>
+        <span> &nbsp;Done &nbsp;<i class="fa fa-check-circle" style={{ color: "lime" }} aria-hidden="true"></i></span>
     );
 };
 
