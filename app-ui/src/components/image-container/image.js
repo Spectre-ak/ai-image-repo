@@ -21,7 +21,10 @@ class ImageComponent extends React.Component {
                 uniqueId++;
                 tags.push(<ImageTagsComponent tag={elementTag} key={uniqueId*2789}/>);
             });
-            processedComps.push(<ImageColDefComponent src={element.img} tags={tags} key={uniqueId/123}/>)
+            if(tags.length===0){
+                tags.push(<ImageTagsComponent tag={"miscellaneous"} key={uniqueId*3890}/>);
+            }
+            processedComps.push(<ImageColDefComponent src={element.img} tags={tags} key={element.img}/>)
         });
         this.setState({
             renderData:processedComps
@@ -56,7 +59,7 @@ function ImageColDefComponent(props) {
 function ImageTagsComponent(props){
     return(
         <span style={{paddingRight:"2px", paddingLeft:"2px"}}>
-            <span class="badge badge-primary" >{props.tag}</span>
+            <span class="badge badge-pill badge-warning" >{props.tag}</span>
         </span>
         
     )

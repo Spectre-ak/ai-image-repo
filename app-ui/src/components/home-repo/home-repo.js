@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from 'react-dom';
 import ImageComponent from "../image-container/image";
 import ContentFunctionalityStatus from "../nav/status";
 import TextSearchComponent from "../search-text/TextSearch";
