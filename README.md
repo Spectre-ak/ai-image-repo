@@ -29,3 +29,8 @@ This component directly outputs the detected objects in an image. Upload a bunch
 #### Add Images
 
 This component is for contributing images to the repository. If you want you can upload images, they'll be classified/tagged by the model and stored in the repository.
+
+
+![alt text](https://raw.githubusercontent.com/Spectre-ak/ai-image-repo/main/samples/Screenshot%202021-10-14%20022023.jpg)
+
+![alt text](https://raw.githubusercontent.com/Spectre-ak/ai-image-repo/main/samples/Capture.JPG)
