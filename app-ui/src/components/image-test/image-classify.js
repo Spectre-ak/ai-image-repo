@@ -5,6 +5,7 @@ import ContentFunctionalityStatus from "../nav/status";
 import ImageComponent from "../image-container/image";
 import { Loader } from "../home-repo/home-repo";
 import { VideoProcessingDone } from "../video-search/video-search";
+import {base_url} from "../util_access"
 
 const Status = <span>Working <i class="fa fa-check" aria-hidden="true" style={{ color: "lime" }}></i></span>;
 
@@ -68,8 +69,7 @@ class ClassifyImageComponent extends React.Component {
             renderAddImagesToRepo:<Loader/>,
             imgUploadAndProcessStatus:<ImgUploadAndProcessStatus/>
         });
-        // fetch('http://localhost:5000/upload', {
-        fetch('http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/upload', {
+        fetch(base_url+'/upload', {
             method: 'POST',
             body: reqData,
         }).then(res=>res.json()).then(res=>{

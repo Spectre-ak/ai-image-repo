@@ -5,7 +5,7 @@ import ImageComponent from "../image-container/image";
 import { ClassifyImageTitleComponent, ImgUploadAndProcessStatus, Status } from "../image-test/image-classify";
 import ContentFunctionalityStatus from "../nav/status";
 import { VideoProcessingDone } from "../video-search/video-search";
-
+import {base_url} from "../util_access";
 
 class ImageSearchComponent extends React.Component{
     constructor(props){
@@ -54,8 +54,7 @@ class ImageSearchComponent extends React.Component{
             imgUploadAndProcessStatus:<ImgUploadAndProcessStatus message="Uploading and searching for similar images in the repo"/>
         });
 
-        // fetch('http://localhost:5000/search_image', {
-        fetch('http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/search_image', {
+        fetch(base_url+'/search_image', {
             method: 'POST',
             body: reqData,
         }).then(res=>res.json()).then(res=>{

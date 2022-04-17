@@ -2,6 +2,7 @@ import React from "react";
 import ImageComponent from "../image-container/image";
 import ContentFunctionalityStatus from "../nav/status";
 import TextSearchComponent from "../search-text/TextSearch";
+import {base_url} from "../util_access";
 
 const Status = <span>Working <i class="fa fa-check" aria-hidden="true" style={{color:"lime"}}></i></span>;
 
@@ -52,7 +53,7 @@ class RepoHomeComponent extends React.Component {
     componentDidMount() {
         this.props.setContentStatus(<ContentFunctionalityStatus status={Status} />);
         this.props.setComponentTitle(<TextSearchComponent selectedList={this.selectedListFromSearch} />);
-        fetch('http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/repo_home_data', {
+        fetch(base_url+'/repo_home_data', {
             method: 'GET',
         }).then(res => res.json()).then(res => {
             console.log(res);

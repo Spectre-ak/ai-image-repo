@@ -42,6 +42,13 @@
             <input type="submit" class="btn btn-outline-primary"/>
         </form>
 
+        <p>upload video and image</p>
+        <form id="videoSubmitForm">
+            <input type="file" name="Videofile" id="search_video_file" class=""/>
+            <input type="file" name="Imagefile" id="search_Image_file" class="" required/>
+            <input type="submit" class="btn btn-outline-primary"/>
+        </form>
+
         <div id="resultContainer">
             <br /><br />
             <div id="resultLoader" style="display: none;">
@@ -55,35 +62,43 @@
         </div>
 
     </div>
-
     <script>
         document.getElementById("iamgeForm").addEventListener("submit", (e) => {
             e.preventDefault();
             //console.log("send")
             var data = new FormData(document.getElementById("iamgeForm"));
+            console.log(data);
             var image = document.getElementById("imageFile");
            
             var size = image.files[0].size / 1024 / 1024; size = parseInt(size);
-            if (size >= 15 || !image.files[0].type.includes("image")) {
+            if (size >= 10 || !image.files[0].type.includes("image")) {
                 alert("File type must be image(png or jpg) and size less than 15MB");
                 return;
             }
             document.getElementById("resultLoader").style.display="block";
             var url="/upload"
-            $.ajax({
-                url:url,
-                //url: "http://localhost:5000/upload",  
-                type: 'POST',
-                data: data,
-                processData: false,
-                contentType: false
-            }).done(function (d) {
-                console.log(d);
-                document.getElementById("resultContainer").appendChild(document.createTextNode(d));
-                document.getElementById("resultLoader").style.display="none";
-            });
+            // $.ajax({
+            //     url:url,
+            //     //url: "http://localhost:5000/upload",  
+            //     type: 'POST',
+            //     data: data,
+            //     processData: false,
+            //     contentType: false
+            // }).done(function (d) {
+            //     console.log(d);
+            //     document.getElementById("resultContainer").appendChild(document.createTextNode(d));
+            //     document.getElementById("resultLoader").style.display="none";
+            // });
 
-            fetch('/upload_and_store',{
+            // fetch('/upload_and_store',{
+            //     method:'POST',
+            //     body:data,
+            //     mode:'no-cors'
+            // }).then(res=>res.json()).then(res=>{
+            //     console.log(res);
+            // });
+
+            fetch('/search_image',{
                 method:'POST',
                 body:data,
                 mode:'no-cors'
@@ -92,6 +107,57 @@
             });
 
         });
+
+        document.getElementById("videoSubmitForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            //console.log("send")
+            var data = new FormData(document.getElementById("videoSubmitForm"));
+
+            data.append("type","img");
+
+            console.log(data);
+
+            var video = document.getElementById("search_video_file");
+            var img = document.getElementById("search_Image_file");
+           
+            // var size = video.files[0].size / 1024 / 1024; size = parseInt(size);
+            // var imgsize = img.files[0].size / 1024 / 1024; size = parseInt(size);
+            // console.log('video type');
+            // console.log(video.files[0].type);
+            // if (size >= 30 || !video.files[0].type.includes("video")) {
+            //     alert("File type must be video(mp4) and size less than 20MB");
+            //     return;
+            // }
+            // if (imgsize >= 10 || !img.files[0].type.includes("image")) {
+            //     alert("File type must be image(png or jpg) and size less than 10MB");
+            //     return;
+            // }
+            document.getElementById("resultLoader").style.display="block";
+            var url="/search_video"
+
+            fetch('/search_video',{
+                method:'POST',
+                body:data,
+                mode:'no-cors'
+            }).then(res=>res.json()).then(res=>{
+                console.log(res);
+
+                var foemData =new FormData();
+                foemData.append("json", JSON.stringify(res));
+
+                fetch('/start_processing_video',{
+                    method:'POST',
+                    body:foemData,
+                    mode:'no-cors'
+                }).then(res2=>res2.json()).then(res2=>{
+                    console.log(res2);
+                });
+            });
+
+            
+
+        });
+
     </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

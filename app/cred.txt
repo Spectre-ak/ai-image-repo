@@ -1,1 +1,1 @@
-[]
+["Could not start a new session. Possible causes are invalid address of the remote server or browser start-up failure.\nBuild info: version: 'unknown', revision: 'unknown', time: 'unknown'\nSystem info: host: 'WEBWK000000', ip: '10.0.0.4', os.name: 'Windows Server 2016', os.arch: 'amd64', os.version: '10.0', java.version: '11.0.12'\nDriver info: driver.version: RemoteWebDriver"]

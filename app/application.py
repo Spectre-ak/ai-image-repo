@@ -7,13 +7,13 @@ import db_util
 import json as jsonLoader
 from flask_cors import CORS, cross_origin
 
-application = Flask(__name__, static_url_path="/static")
+application = Flask(__name__, static_url_path='', static_folder='static')
 cors = CORS(application, resources={r"/api/*": {"origins": "*"}})
 
 
 @application.route("/")
 def helloworld():
-    return render_template("index.html")
+    return application.send_static_file("index.html")
 
 @application.route("/aa")
 def renderHome():

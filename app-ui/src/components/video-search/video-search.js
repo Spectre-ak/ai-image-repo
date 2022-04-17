@@ -4,6 +4,7 @@ import ContentFunctionalityStatus from "../nav/status";
 import TextSearchComponent from "../search-text/TextSearch";
 import ImageComponent from "../image-container/image";
 import { Loader } from "../home-repo/home-repo";
+import {base_url} from "../util_access";
 
 const Status = <span>Working <i class="fa fa-check" aria-hidden="true" style={{ color: "lime" }}></i></span>;
 
@@ -68,8 +69,7 @@ class VideoSearchComponent extends React.Component {
         const zipUrl = localStorage.getItem("DownloadAsZipComponent");
 
         if (foundSimilarImages && foundSimilarImages.length !== 0) {
-            // fetch("http://localhost:5000/chk/"+localStorage.getItem("temp_dir_id"))
-            fetch("http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/chk/"+localStorage.getItem("temp_dir_id"))
+            fetch(base_url+"/chk/"+localStorage.getItem("temp_dir_id"))
                 .then(res=>res.json()).then(res=>{
                 if(res.status){
                     this.setState({
@@ -140,8 +140,7 @@ class VideoSearchComponent extends React.Component {
             videoProcessStatus: <VideoUploadingProgress />,
             buttonDisabled:true
         });
-        // fetch('http://localhost:5000/search_video', {
-        fetch('http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/search_video', {
+        fetch(base_url+'/search_video', {
             method: 'POST',
             body: requestFormData,
 
@@ -158,7 +157,7 @@ class VideoSearchComponent extends React.Component {
                 videoProcessStatus: <VideoProcessingProgress />
             });
 
-            fetch('http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/start_processing_video', {
+            fetch(base_url+'/start_processing_video', {
                 method: 'POST',
                 body: processVidData,
 
@@ -172,11 +171,11 @@ class VideoSearchComponent extends React.Component {
                 framesRes.data.forEach(obj => {
                     console.log(obj);
                     foundSimilarImages.push({
-                        "img": "http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/" + obj[Object.keys(obj)[0]].frame_path,
+                        "img": base_url+"/" + obj[Object.keys(obj)[0]].frame_path,
                         "tags": obj[Object.keys(obj)[0]].similar_objs
                     });
                 });
-                const zipUrl = "http://aiimgrepov5-env.eba-vk4ybdys.us-east-1.elasticbeanstalk.com/static/" + res.temp_dir_id + ".zip";
+                const zipUrl = base_url+"/static/" + res.temp_dir_id + ".zip";
                 localStorage.setItem("ImageComponent", JSON.stringify(foundSimilarImages));
                 localStorage.setItem("DownloadAsZipComponent", zipUrl);
                 localStorage.setItem("temp_dir_id", res.temp_dir_id);
