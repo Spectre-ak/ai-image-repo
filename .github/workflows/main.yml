@@ -6,7 +6,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: 'building app server image'
-        run: docker build ./app -t ai-image-repo-backend:0.1
+        run: docker build ./ -t ai-image-repo-backend:0.1
 
-      - name: 'building app-ui image'
-        run: docker build ./app-ui -t ai-image-repo:0.1
+      #- name: 'building app-ui image'
+      #  run: docker build ./app-ui -t ai-image-repo:0.1
