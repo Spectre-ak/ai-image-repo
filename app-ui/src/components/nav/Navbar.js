@@ -29,7 +29,7 @@ export default function Navbar() {
   
   return (
     <div className="container">
-      <h4 style={{marginTop:"15px",marginBottom:"20px"}}>Welcome to AI based Image Repository</h4>
+      <h4 style={{marginTop:"15px",marginBottom:"20px"}}>Welcome to AI Image Repository</h4>
       
       <p>
         <GithubLogo/>
