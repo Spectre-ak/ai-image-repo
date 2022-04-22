@@ -52,15 +52,18 @@ code {
 .optionListContainer {
   background: #121111!important;
 }
+
+
 .highlightOption {
-  background: #007bff!important;
-  color: #fff;
-  border-radius: 33px!important;
+  background: none!important;
 }
+
+
 .multiSelectContainer li:hover {
-  background: #007bff!important;
+  border: 3px solid #007bff!important;
   color: #fff;
   cursor: pointer;
+  background: none!important;
   border-radius: 33px!important;
 }
 .searchWrapper {
@@ -76,7 +79,9 @@ code {
   border-radius: 10px!important;
 }
 
-
+.multiSelectContainer li {
+  padding: 5px!important;
+}
 
 .dropdown-menu {
   position: absolute;
