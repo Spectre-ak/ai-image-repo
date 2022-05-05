@@ -1,9 +1,6 @@
 flask
 Pillow
 opencv-python-headless
-tf_slim
-matplotlib
-tensorflow==2.5.0
 boto3
 pymongo
 dnspython
